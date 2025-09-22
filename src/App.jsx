@@ -3,6 +3,7 @@ import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router
 import './App.css'
 import Dashboard from './Pages/Dashboard'
 import Header from './Components/Header'
+import Sidebar from './Components/Sidebar'
 
 function App() {
 const router = createBrowserRouter([
@@ -12,6 +13,11 @@ const router = createBrowserRouter([
     element:<>
     <section className='main'>
        <Header/>
+       <div className='contentMain flex'>
+        <div className='sidebarWrapper w-[18%]'>
+         <Sidebar/>
+        </div>
+       </div>
     </section>  
     
     </>

@@ -29,7 +29,7 @@ const Sidebar = () => {
             <img src='\img\_logo.jpg' alt='_logo' className='w-[170px] ' />
           </Link>
         </div>
-      </div>
+      
 
       <ul className='mt-4'>
         <li>
@@ -48,8 +48,8 @@ const Sidebar = () => {
 
             <ul className='w-full'>
               <li className='w-full'><Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3'>
-                <span className='block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]'></span> Home Banners  List</Button></li>
-              <li className='w-full'><Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500]  !pl-9 flex gap-3'>
+                <span className='block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]'></span> Home Banners List</Button></li>
+              <li className='w-full'><Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3'>
                 <span className='block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]'></span> Add Home Banners Slide</Button></li>
             </ul>
           </Collapse>
@@ -99,7 +99,7 @@ const Sidebar = () => {
               <li className='w-full'>
              <Link to="/categories">
               <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3'>
-                <span className='block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]'></span> Category List</Button></Link></li>
+                <span className='block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Category List</Button></Link></li>
               <li className='w-full'>
                            <Link to="/category/add">
                 <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500]  !pl-9 flex gap-3'>
@@ -116,14 +116,15 @@ const Sidebar = () => {
           </Collapse>
         </li>
         <li>
-        <Link to=""></Link>
+        <Link to="/category/subCat/add">
           <Button className='w-full !capitalize !justify-start flex !py-2 gap-3 !font-[500] items-center !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]'>
-            <IoBagCheckOutline className='text-[20px]' /><span>Orders </span></Button></li>
+            <IoBagCheckOutline className='text-[20px]' /><span>Orders </span></Button></Link></li>
 
         <li>
           <Button className='w-full !capitalize !justify-start flex !py-2 gap-3 !font-[500] items-center !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]'>
             <IoMdLogOut className='text-[20px]' /><span>Logout </span></Button></li>
       </ul>
+      </div>
     </>
   )
 }

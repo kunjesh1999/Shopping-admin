@@ -9,7 +9,71 @@ import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Progress from '../../Components/ProgressBar';
+import { AiOutlineEdit } from "react-icons/ai";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { GoTrash } from "react-icons/go";
+import Tooltip from '@mui/material/Tooltip';
+import Pagination from '@mui/material/Pagination';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+const columns = [
+  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  {
+    id: 'population',
+    label: 'Population',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'size',
+    label: 'Size\u00a0(km\u00b2)',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'density',
+    label: 'Density',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toFixed(2),
+  },
+];
+
+function createData(name, code, population, size) {
+  const density = population / size;
+  return { name, code, population, size, density };
+}
+
+const rows = [
+  createData('India', 'IN', 1324171354, 3287263),
+  createData('China', 'CN', 1403500365, 9596961),
+  createData('Italy', 'IT', 60483973, 301340),
+  createData('United States', 'US', 327167434, 9833520),
+  createData('Canada', 'CA', 37602103, 9984670),
+  createData('Australia', 'AU', 25475400, 7692024),
+  createData('Germany', 'DE', 83019200, 357578),
+  createData('Ireland', 'IE', 4857000, 70273),
+  createData('Mexico', 'MX', 126577691, 1972550),
+  createData('Japan', 'JP', 126317000, 377973),
+  createData('France', 'FR', 67022000, 640679),
+  createData('United Kingdom', 'GB', 67545757, 242495),
+  createData('Russia', 'RU', 146793744, 17098246),
+  createData('Nigeria', 'NG', 200962417, 923768),
+  createData('Brazil', 'BR', 210147125, 8515767),
+];
+
 const Dashboard = () => {
   const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
   const isShowOrderProduct = (index) => {
@@ -35,21 +99,21 @@ const Dashboard = () => {
 
       <div className='card my-4 shadow-md sm:rounded-lg bg-white'>
         <div className='flex items-center justify-between px-5 py-5'>
-          <h2 className='text-[18px] font-[600]'>Products</h2>
+          <h2 className='text-[18px] font-[600]'>Products <span className='font-[400] text-[14px]'>(Tailwind Css Table)</span></h2>
         </div>
-        <div className="relative overflow-x-auto mt-5 pb-5">
+        <div className="relative overflow-x-auto pt-5 pb-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs bg-gray-50 text-gray-700 uppercase dark:text-gray-400">
               <tr>
-                <th scope="col" className="px-6 py-3" width="10%">
-                <div className='w-[60px]'>
-                   <Checkbox {...label} size='small'/>
-                </div>
+                <th scope="col" className="px-6 pr-0 py-3" width="10%">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-0 py-3 whitespace-nowrap">
                   Product
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 py-3 whitespace-nowrap">
                   CATEGORY
                 </th>
                 <th scope="col" className="px-6 py-3 whitespace-nowrap">
@@ -67,57 +131,750 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-         <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-          <td className="px-6 py-2">
-            <div className='w-[60px]'>
-                   <Checkbox {...label} size='small'/>
-                </div>
-          </td>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
 
-              <td className="px-6 py-2">
-            <div className='flex items-center gap-4 w-[350px]'>
-              <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
-            <Link to="/product/45745">
-                 <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all'/>
-</Link>
-              </div>
-              <div className='info w-[75%]'>
-                  <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
 
-                  <span className='text-[12px]'>Flying Machine</span>
-              </div>
-            </div>
-          </td>
-           <td className="px-6 py-2">
-            Electronics
-           </td>
-           <td className="px-6 py-2">
-            Women
-           </td>
-           <td className="px-6 py-2">
-            <div className='flex items-center gap-1 flex-col'>
-              <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
-                $58.00
-              </span>
-              <span className='Price  text-primary text-[14px] font-[600]'>
-                $58.00
-              </span>
-            </div>
-           </td>
-           <td className="px-6 py-2">
-            <p className='text-[14px] w-[150px]'><span className='font-[600]'>234</span>sale</p>
-            <Progress/>
-           </td>
-           <td className="px-6 py-2"></td>
-           <td className="px-6 py-2"></td>
-         </tr>
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
 
 
 
             </tbody>
           </table>
         </div>
+
+        <div className='flex items-center justify-end pt-5 pb-5 px-4'>
+          <Pagination count={10} color="primary" />
+        </div>
+
       </div>
+
+  {/* paste */}
+       <div className='card my-4 shadow-md sm:rounded-lg bg-white'>
+        <div className='flex items-center justify-between px-5 py-5'>
+          <h2 className='text-[18px] font-[600]'>Products <span className='font-[400] text-[14px]'>(Material Ui Table)</span></h2>
+        </div>
+        <div className="relative overflow-x-auto pt-5 pb-5">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs bg-gray-50 text-gray-700 uppercase dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 pr-0 py-3" width="10%">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </th>
+                <th scope="col" className="px-0 py-3 whitespace-nowrap">
+                  Product
+                </th>
+                <th scope="col" className="px-3 py-3 whitespace-nowrap">
+                  CATEGORY
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  SUB CATEGORY
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  PRICE
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  SALES
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  ACTION
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <td className="px-6 pr-0 py-2">
+                  <div className='w-[60px]'>
+                    <Checkbox {...label} size='small' />
+                  </div>
+                </td>
+
+                <td className="px-0 py-2">
+                  <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-2">
+                  Electronics
+                </td>
+                <td className="px-6 py-2">
+                  Women
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-2">
+                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="warning" />
+                </td>
+                <td className="px-6 py-2">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+                </td>
+                <td className="px-6 py-2"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className='flex items-center justify-end pt-5 pb-5 px-4'>
+          <Pagination count={10} color="primary" />
+        </div>
+      </div>
+
+
+
+
+
+
 
       <div className='card my-4 shadow-md sm:rounded-lg bg-white'>
         <div className='flex items-center justify-between px-5 py-5'>

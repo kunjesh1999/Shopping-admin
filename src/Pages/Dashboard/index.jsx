@@ -25,29 +25,31 @@ import TableRow from '@mui/material/TableRow';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+
+
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+
+  { id: 'product', label: 'PRODUCT', minWidth: 150 },
+  { id: 'category', label: 'CATEGORY', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    id: 'subcategory',
+    label: 'SUB CATEGORY',
+    minWidth: 150,
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    id: 'price',
+    label: 'PRICE',
+    minWidth:130,
   },
   {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
+    id: "sales",
+    label: 'SALES',
+    minWidth: 100,
+  },
+  {
+    id: "action",
+    label:'ACTION',
+    minWidth:120,
   },
 ];
 
@@ -75,6 +77,18 @@ const rows = [
 ];
 
 const Dashboard = () => {
+   const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
   const isShowOrderProduct = (index) => {
     if (isOpenOrderProduct === index) {
@@ -491,45 +505,31 @@ const Dashboard = () => {
         <div className='flex items-center justify-between px-5 py-5'>
           <h2 className='text-[18px] font-[600]'>Products <span className='font-[400] text-[14px]'>(Material Ui Table)</span></h2>
         </div>
-        <div className="relative overflow-x-auto pt-5 pb-5">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs bg-gray-50 text-gray-700 uppercase dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 pr-0 py-3" width="10%">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </th>
-                <th scope="col" className="px-0 py-3 whitespace-nowrap">
-                  Product
-                </th>
-                <th scope="col" className="px-3 py-3 whitespace-nowrap">
-                  CATEGORY
-                </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                  SUB CATEGORY
-                </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                  PRICE
-                </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                  SALES
-                </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                  ACTION
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+       <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead >
+            <TableRow>
+            <TableCell>
+              <Checkbox {...label} size='small' />
+            </TableCell>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -541,15 +541,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -557,13 +553,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -574,19 +570,14 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -598,15 +589,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -614,13 +601,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -631,19 +618,14 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -655,15 +637,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -671,13 +649,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -688,19 +666,14 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -712,15 +685,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -728,13 +697,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -745,19 +714,14 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -769,15 +733,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -785,13 +745,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -802,19 +762,14 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                <td className="px-6 pr-0 py-2">
-                  <div className='w-[60px]'>
-                    <Checkbox {...label} size='small' />
-                  </div>
-                </td>
-
-                <td className="px-0 py-2">
-                  <div className='flex items-center gap-4 w-[300px]'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
                     <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
                       <Link to="/product/45745">
                         <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
@@ -826,15 +781,11 @@ const Dashboard = () => {
                       <span className='text-[12px]'>Flying Machine</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-3 py-2">
-                  Electronics
-                </td>
-                <td className="px-6 py-2">
-                  Women
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1 flex-col'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
                     <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
                       $58.00
                     </span>
@@ -842,13 +793,13 @@ const Dashboard = () => {
                       $58.00
                     </span>
                   </div>
-                </td>
-                <td className="px-6 py-2">
-                  <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
-                  <Progress value={40} type="warning" />
-                </td>
-                <td className="px-6 py-2">
-                  <div className='flex items-center gap-1'>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
                     <Tooltip title="Edit Product" placement="top">
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
@@ -859,15 +810,72 @@ const Dashboard = () => {
                       <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
                         <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
                   </div>
-                </td>
-                <td className="px-6 py-2"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className='flex items-center justify-end pt-5 pb-5 px-4'>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{minWidth:columns.minWidth}}> 
+              <Checkbox {...label} size='small' />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}} className='!px-0'> 
+                    <div className='flex items-center gap-4 w-[300px]'>
+                    <div className='img w-[65px] h-[65px] rounded-md overflow-hidden group'>
+                      <Link to="/product/45745">
+                        <img src="\img\Product.jpg" alt="product" className='w-full group-hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+                    <div className='info w-[75%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-primary'><Link to="/product/45745">Women Wide Leg High-Rise Light Fade Stretchable Je...</Link></h3>
+
+                      <span className='text-[12px]'>Flying Machine</span>
+                    </div>
+                  </div>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Electronics</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>Women</TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                 <div className=' flex  gap-1 flex-col'>
+                    <span className='oldPrice line-through leading-3 text-gray-500 text-[14px] font-[500]'>
+                      $58.00
+                    </span>
+                    <span className='Price  text-primary text-[14px] font-[600]'>
+                      $58.00
+                    </span>
+                  </div>
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+              <p className='text-[14px] w-[100px]'><span className='font-[600]'>234</span>sale</p>
+                  <Progress value={40} type="success" />
+              </TableCell>
+              <TableCell style={{minWidth:columns.minWidth}}>
+                    <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit Product" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <AiOutlineEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button>  </Tooltip>
+                    <Tooltip title="View Product  Details" placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <MdOutlineRemoveRedEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                    <Tooltip title="Remove Product " placement="top">
+                      <Button className='!w-[35px] !h-[35px]  bg-[#f1f1f1] !min-w-[35px] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' /> </Button></Tooltip>
+                  </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+   <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+
+        {/* <div className='flex items-center justify-end pt-5 pb-5 px-4'>
           <Pagination count={10} color="primary" />
-        </div>
+        </div> */}
       </div>
 
 

@@ -13,6 +13,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { MyContext } from '../../App';
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { RiMenu2Line } from "react-icons/ri";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -33,17 +34,11 @@ function Header() {
   };
   const context = useContext(MyContext)
   return (
-    <header className={`w-full h-[auto] py-2 ${context.isSidebarOpen === true ? "pl-64": 'pl-5'} shadow-md pr-7 bg-[#fff]  flex items-center justify-between transition-all`}>
+    <header className={`w-full h-[auto] py-2 ${context.isSidebarOpen === true ? "pl-64" : 'pl-5'} shadow-md pr-7 bg-[#fff]  flex items-center justify-between transition-all`}>
       <div className="part1">
-        <Button className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]" onClick={() => context.setisSidebarOpen(!context.isSidebarOpen) }>
-        {
-          context.isSidebarOpen === true ? 
-                    <AiOutlineMenuFold className='text-[18px] text-[rgba(0,0,0,0.8)]' />
-          :
-                              <AiOutlineMenuUnfold className='text-[18px] text-[rgba(0,0,0,0.8)]' />
+        <Button className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]" onClick={() => context.setisSidebarOpen(!context.isSidebarOpen)}>
+          <RiMenu2Line className='text-[18px] text-[rgba(0,0,0,0.8)]' />
 
-
-        }
         </Button>
       </div>
 
@@ -110,13 +105,13 @@ function Header() {
             </div>
           </MenuItem>
           <Divider />
-  <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-<FaRegUser className='text-[16px]'/> <span className='text-[14px]'>Profile</span>
-  </MenuItem>
-  
-  <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-<AiOutlineLogout className='text-[18px]'/> <span className='text-[14px]'>Sign Out</span>
-  </MenuItem>
+          <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
+            <FaRegUser className='text-[16px]' /> <span className='text-[14px]'>Profile</span>
+          </MenuItem>
+
+          <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
+            <AiOutlineLogout className='text-[18px]' /> <span className='text-[14px]'>Sign Out</span>
+          </MenuItem>
 
         </Menu>
       </div>
